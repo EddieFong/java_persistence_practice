@@ -5,7 +5,6 @@ import com.tw.apistackbase.application.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
@@ -16,13 +15,18 @@ public class EmployeeResource {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
     @GetMapping(produces = {"application/json"})
-    public List<Employee> list() {
-        return employeeService.list();
+    public Iterable<Employee> list() {
+        return employeeRepository.findAll();
+//        return employeeService.list();
     }
 
     @PostMapping(produces = {"application/json"})
     public void add(@RequestBody Employee employee) {
-        employeeService.add(employee);
+        employeeRepository.save(employee);
+//        employeeService.add(employee);
     }
 }
